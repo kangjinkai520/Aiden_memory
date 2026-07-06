@@ -23,6 +23,87 @@ Aiden Memory 帮用户：
 
 这个项目的目标是一个 **Skill**，不是平台。它是本地的、Markdown-first 的、可审阅的，也应该保持克制。
 
+## 先看这里
+
+最重要的一句话：
+
+> 先导入一次聊天记录，让它生成 memory；之后新开对话时，默认只使用已经生成好的 memory，不要每次都重新导入原始聊天记录。
+
+Aiden Memory 有两个完全不同的动作：
+
+- **Import / Build Memory**：读取聊天导出，生成 `cards/`、`profile.md`、`deep-profile.md`、`coverage.md` 和 `index.md`。
+- **Use Memory**：普通新对话里，只读取已经生成好的 profile/cards，并且只读取当前任务需要的部分。
+
+大多数日常使用都应该是 **Use Memory**，不是 Import。
+
+### 第一次使用
+
+1. 从 Claude、ChatGPT、Codex 或其他工具导出聊天记录。
+2. 把导出文件放进 `imports/`。这个目录会被 git 忽略。
+3. 让助手按 Aiden Memory 的 **Import Memory** 模式处理。
+4. 在 `memory/` 下生成一个 memory 实例。这个目录也会被 git 忽略。
+5. 先审阅生成的草稿，再把它当成正式 memory 使用。
+
+完成后，通常会有这些文件：
+
+```text
+memory/
+  coverage.md
+  index.md
+  profile.md
+  deep-profile.md
+  cards/
+    communication-style.md
+    ai-tools-workflow.md
+    ...
+```
+
+### 新开窗口怎么用
+
+新开一个对话时，可以这样告诉助手：
+
+```text
+Use Aiden Memory to understand me for this conversation.
+Project path: <path-to-Aiden_memory>
+Memory instance: <path-to-Aiden_memory>/memory
+Follow the skill-modes rules.
+```
+
+助手应该：
+
+1. 走 **Runtime / Use Memory** 模式；
+2. 读取 `index.md`、`profile.md` 和少量相关 cards；
+3. 简短说明当前 memory 截止到哪一天；
+4. 继续处理当前任务；
+5. 不读取 raw imports，也不重新生成 memory。
+
+### 聊到一半怎么用
+
+如果对话已经进行到一半，用户突然说想用 Aiden Memory，助手应该先根据当前可见对话判断用户正在做什么，再选择最小必要 card set。
+
+例子：
+
+```text
+Use Aiden Memory here so you understand my context better.
+Project path: <path-to-Aiden_memory>
+Memory instance: <path-to-Aiden_memory>/memory
+Follow the skill-modes rules.
+```
+
+这种情况仍然应该是 **Use Memory**，不是 Import Memory。
+
+### 以后怎么更新
+
+当用户过了一段时间又导出新的聊天记录时，不要直接全部重建。
+
+先看 `coverage.md`，助手应该告诉用户：
+
+- 现在的 memory 基于哪段日期；
+- 新导出的聊天记录覆盖哪段日期；
+- 这是追加、重叠、缺口，还是需要完整重建。
+
+更新后的 profile、deep-profile 和 cards 都应该保留 source coverage，让用户知道这份画像基于哪一段时间。
+
 ## 为什么做这个
 
 这个项目起源于一次平台账号突然不可用的经历。那件事让人意识到：有价值的 AI 连续性不应该只活在某个平台账号里。

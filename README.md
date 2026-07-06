@@ -23,6 +23,87 @@ Aiden Memory helps a user:
 
 The intended shape is a **Skill**, not a platform. It is local, Markdown-first, reviewable, and intentionally modest.
 
+## Start Here
+
+The most important rule:
+
+> Import once, generate memory once, then reuse the generated memory. Do not re-import raw chat history every time you open a new conversation.
+
+Aiden Memory has two different jobs:
+
+- **Import / Build Memory**: use chat exports to create `cards/`, `profile.md`, `deep-profile.md`, `coverage.md`, and `index.md`.
+- **Use Memory**: in a normal new chat, read only the already-generated profile/cards that match the current task.
+
+Most daily use should be **Use Memory**, not Import.
+
+### First-Time Setup
+
+1. Export your AI chat history from Claude, ChatGPT, Codex, or another tool.
+2. Put the export under `imports/`. This folder is ignored by git.
+3. Ask an assistant to use Aiden Memory in **Import Memory** mode.
+4. Generate a memory instance under `memory/`. This folder is also ignored by git.
+5. Review the generated drafts before treating them as active memory.
+
+After this step, you should have files like:
+
+```text
+memory/
+  coverage.md
+  index.md
+  profile.md
+  deep-profile.md
+  cards/
+    communication-style.md
+    ai-tools-workflow.md
+    ...
+```
+
+### New Chat Usage
+
+When starting a new chat, tell the assistant where the project and memory instance are:
+
+```text
+Use Aiden Memory to understand me for this conversation.
+Project path: <path-to-Aiden_memory>
+Memory instance: <path-to-Aiden_memory>/memory
+Follow the skill-modes rules.
+```
+
+The assistant should:
+
+1. use **Runtime / Use Memory** mode;
+2. read `index.md`, `profile.md`, and only relevant cards;
+3. mention the memory coverage date;
+4. continue the current task;
+5. avoid raw imports and avoid rebuilding memory.
+
+### Mid-Conversation Usage
+
+If you are already discussing a task and then invoke Aiden Memory, the assistant should infer the current task from the visible conversation, choose the smallest relevant card set, and continue.
+
+Example:
+
+```text
+Use Aiden Memory here so you understand my context better.
+Project path: <path-to-Aiden_memory>
+Memory instance: <path-to-Aiden_memory>/memory
+Follow the skill-modes rules.
+```
+
+This should still be **Use Memory**, not Import Memory.
+
+### Updating Memory Later
+
+When you have new chat history, do not blindly rebuild everything. First check `coverage.md`.
+
+The assistant should tell you:
+
+- what date range the current memory is based on;
+- what new date range the export contains;
+- whether this is an append, overlap, gap, or full rebuild.
+
+Then it can update the memory drafts. The generated files should keep source coverage visible so the user knows what period the memory represents.
+
 ## Why It Exists
 
 The project started after a platform account became unavailable and made one thing clear: useful AI continuity should not live only inside a single company's account memory.
