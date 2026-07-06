@@ -1,17 +1,19 @@
-# Synthetic Example: Alex Chen
+# Example: Alex Chen
 
-This example shows what Aiden Memory output can look like without exposing a real user's private data.
+This example shows what Aiden Memory output can look like without exposing a real user's private memory.
 
-Alex Chen is fictional. The source notes, profile, deep profile, and cards in this directory are synthetic demonstration content.
+Alex Chen is a composite demonstration user derived from a small local sample of [OpenAssistant/oasst1](https://huggingface.co/datasets/OpenAssistant/oasst1) validation conversations. The source sample used for this local experiment contained 8 English message trees, 48 total messages, and 24 human messages. No topic or safety filtering was applied when selecting the local sample.
+
+The raw OASST1 sample is not committed. Only the derived source summary and memory files are included here.
 
 ## What This Example Demonstrates
 
-- A raw import-style source summary.
+- A source summary derived from public assistant-style conversation data.
 - A default-readable `profile.md`.
 - An explicit-trigger `deep-profile.md`.
 - A task routing `index.md`.
 - A few task-specific cards.
-- The difference between product templates and a generated user instance.
+- The difference between private raw imports and public derived examples.
 
 ## Files
 
@@ -31,45 +33,16 @@ memory/
     personal-reflection.md
 ```
 
-## Safety Note
+## Data Note
 
-Do not use this example as a real memory profile. It exists only to demonstrate structure and expected output quality.
+The public files in this directory are derived examples, not a direct copy of the raw OASST1 conversations. The raw local corpus lives under `imports/openassistant/`, which is ignored by git.
 
 ---
 
-# 中文翻译
+# 中文说明
 
-这个示例展示了 Aiden Memory 的输出可以是什么样子，同时不会暴露真实用户的私人数据。
+这个示例展示 Aiden Memory 的输出大概可以是什么样，同时不暴露真实用户的私人 memory。
 
-Alex Chen 是虚构人物。这个目录里的 source notes、profile、deep profile 和 cards 都是合成演示内容。
+Alex Chen 是一个演示用的复合用户，基于本地抽样的 OpenAssistant/oasst1 validation conversations 生成。这个本地样本包含 8 个英文 message trees、48 条总消息、24 条 human messages。抽样时没有刻意删除敏感、危险或争议话题。
 
-## 这个示例展示什么
-
-- 一个原始导入风格的 source summary。
-- 一个默认可读取的 `profile.md`。
-- 一个显式触发的 `deep-profile.md`。
-- 一个任务路由 `index.md`。
-- 几张分任务卡片。
-- 产品模板和生成后的用户实例之间的区别。
-
-## 文件
-
-```text
-source/
-  synthetic-chat-summary.md
-
-memory/
-  profile.md
-  deep-profile.md
-  index.md
-  cards/
-    identity.md
-    communication-style.md
-    work-projects.md
-    learning.md
-    personal-reflection.md
-```
-
-## 安全说明
-
-不要把这个示例当成真实记忆画像使用。它只用于展示结构和预期输出质量。
+仓库里不提交 OASST1 原始对话，只提交整理后的 source summary 和 memory 文件。

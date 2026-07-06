@@ -1,81 +1,92 @@
 # Alex Chen Profile
 
-Last updated: 2026-04-01
+Last updated: 2026-07-07
 
-Source notes:
+Source Coverage:
 
-- Based on a synthetic chat summary covering 2026-01-01 to 2026-03-31.
-- This is a default-readable orientation profile.
-- Alex Chen is fictional.
+- Source: OpenAssistant/oasst1 validation sample, locally sampled
+- Requested range: n/a
+- Observed range: source messages dated 2023 in OASST1 metadata
+- Generated on: 2026-07-07
+- Last processed through: local sample of 8 message trees / 48 messages / 24 human messages
+- Status: public derived example, not raw user memory
 
 ## One-Screen Summary
 
-Alex Chen is a fictional product designer working on developer tools. Alex uses AI assistants to clarify product ideas, draft specs, review interface copy, and keep side projects focused.
+Alex Chen is an OASST1-derived composite example user. Alex is not a real person; the profile represents patterns from a small public assistant-conversation sample.
 
-Alex's current main thread is a local-first note-taking app for software teams. The assistant should help Alex keep scope realistic, turn broad instincts into concrete decisions, and avoid over-polishing before validation.
+Alex tends to ask broad practical questions, then narrows them through follow-up. They move across business planning, software testing, content creation, C++ implementation, history, math explanation, and text rewriting. The assistant should expect iterative refinement rather than a single static request.
 
-## Current Main Thread
+## Current Snapshot
 
-- Main focus: a portfolio project for a local-first team note-taking app.
-- Planning need: reduce vague feature ideas into testable product slices.
-- Constraint: protect evenings and avoid turning side projects into another pressure source.
+- Alex often wants practical advice with enough detail to act on.
+- Alex asks comparison questions after receiving a first answer.
+- Alex appreciates beginner-friendly explanations when a topic becomes abstract.
+- Alex may ask the assistant to revise format, style, or depth after seeing an initial answer.
+
+## Stable Patterns
+
+- Starts with a broad goal, then asks for deeper detail.
+- Cares about tradeoffs between tools or strategies.
+- Wants answers that are concrete, structured, and usable.
+- Moves comfortably between technical, creative, educational, and reflective topics.
+- Shows interest in AI memory and assistant persona continuity.
 
 ## How To Work With Alex
 
-- Be direct but kind.
-- Name tradeoffs clearly.
-- Avoid generic encouragement.
-- Separate facts, assumptions, risks, and next actions.
-- Push toward smaller prototypes and earlier validation.
-
-## Work And Direction
-
-Alex works in product design for developer tools and is interested in local-first software, collaboration workflows, and high-quality interface writing.
+- Answer the immediate question first, then offer structure.
+- Expect follow-up refinements.
+- When comparing options, name where each option is better.
+- When explaining hard concepts, keep a plain-language version available.
+- Do not treat this profile as real personal data.
 
 ## Important Caveats
 
-- Do not treat the side project as more important than Alex's health or time boundaries.
+- This is a public demonstration memory, not a private user profile.
+- Do not infer sensitive biography from the OASST1-derived sample.
 - Do not read `deep-profile.md` by default.
-- Use task-specific cards for details.
+- Use task-specific cards when details matter.
 
 ---
 
 # 中文翻译
 
-最后更新：2026-04-01
+最后更新：2026-07-07
 
-来源说明：
+来源覆盖：
 
-- 基于覆盖 2026-01-01 到 2026-03-31 的合成聊天摘要。
-- 这是一份默认可读取的定位画像。
-- Alex Chen 是虚构人物。
+- 来源：本地抽样的 OpenAssistant/oasst1 validation sample
+- 请求范围：不适用
+- 观察范围：来源消息在 OASST1 metadata 中日期为 2023
+- 生成日期：2026-07-07
+- 处理截止：本地样本 8 个 message trees / 48 条消息 / 24 条 human messages
+- 状态：公开派生示例，不是原始用户记忆
 
 ## 一屏摘要
 
-Alex Chen 是一名虚构的开发者工具产品设计师。Alex 使用 AI 助手来澄清产品想法、起草规格文档、审查界面文案，并让副项目保持聚焦。
+Alex Chen 是一个基于 OASST1 小样本合成的示例用户。Alex 不是真实人物；这个 profile 表示的是公开 assistant-conversation 样本里呈现出的模式。
 
-Alex 当前的主线是一个面向软件团队的 local-first 笔记应用。助手应该帮助 Alex 控制范围，把宽泛直觉转化成具体决策，并避免在验证之前过度打磨。
+Alex 往往先提出宽泛的实际问题，然后通过追问逐渐缩小范围。话题会在商业规划、软件测试、内容创作、C++ 实现、历史、数学解释和文本改写之间切换。助手应该预期他会连续迭代，而不是只问一次静态问题。
 
-## 当前主线
+## 当前快照
 
-- 主要焦点：一个面向团队的 local-first 笔记应用作品集项目。
-- 规划需求：把模糊的功能想法压缩成可测试的产品切片。
-- 约束：保护晚上的时间，避免副项目变成另一个压力来源。
+- Alex 经常想要足够具体、能落地的建议。
+- Alex 在得到第一版回答后，会继续问比较和取舍。
+- 当话题变抽象时，Alex 会要求新手友好的解释。
+- Alex 看到初稿后，可能继续要求调整格式、风格或深度。
+
+## 稳定模式
+
+- 先从宽泛目标开始，再追问细节。
+- 关心工具或策略之间的取舍。
+- 喜欢具体、有结构、能使用的回答。
+- 能在技术、创作、学习和反思话题之间切换。
+- 对 AI 记忆和助手人格连续性有兴趣。
 
 ## 如何与 Alex 协作
 
-- 直接但友善。
-- 清楚指出取舍。
-- 避免泛泛的鼓励。
-- 区分事实、假设、风险和下一步行动。
-- 推动更小的原型和更早的验证。
-
-## 工作与方向
-
-Alex 从事开发者工具产品设计，并对 local-first 软件、协作工作流和高质量界面文案感兴趣。
-
-## 重要注意事项
-
-- 不要把副项目看得比 Alex 的健康或时间边界更重要。
-- 不要默认读取 `deep-profile.md`。
-- 需要细节时，使用具体任务卡片。
+- 先回答当前问题，再给结构。
+- 预期后续会有追问和修改。
+- 比较选项时，说清楚每个选项在哪些场景更好。
+- 解释困难概念时，保留一个朴素版本。
+- 不要把这个 profile 当成真实个人数据。
