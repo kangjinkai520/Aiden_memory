@@ -25,6 +25,19 @@ Aiden Memory 帮用户：
 
 ## 先看这里
 
+### 5 分钟快速开始
+
+```text
+1. Clone 这个仓库。
+2. 把你的 AI 导出文件放到 imports/<source>/。
+3. 告诉 Codex：“Use Aiden Memory in Import Memory mode to build a draft memory from this export.”
+4. 审阅生成出来的 draft files。
+5. 把确认过的 draft promote 到 memory/。
+6. 以后新开聊天时说：“Use Aiden Memory with memory instance <path-to-Aiden_memory>/memory.”
+```
+
+第一次运行是为了生成 memory。之后的新聊天应该使用已经生成好的 memory，而不是每次重新导入原始聊天记录。
+
 最重要的一句话：
 
 > 先导入一次聊天记录，让它生成 memory；之后新开对话时，默认只使用已经生成好的 memory，不要每次都重新导入原始聊天记录。
@@ -232,6 +245,40 @@ node scripts/summarize-normalized-conversations.mjs `
 
 这些脚本只准备 source material，不会直接更新 active memory。
 
+## 从 Draft 到正式 Memory
+
+原始导出完成清洗和摘要之后，助手应该先创建一个草稿 memory 实例：
+
+```text
+memory/experiments/<date-or-name>/
+  coverage.draft.md
+  index.draft.md
+  profile.draft.md
+  deep-profile.draft.md
+  cards/
+    communication-style.draft.md
+    ai-tools-workflow.draft.md
+    ...
+  source/
+    source-notes.md
+```
+
+先审阅草稿，再把它作为正式 memory 使用。确认后，promote 到：
+
+```text
+memory/
+  coverage.md
+  index.md
+  profile.md
+  deep-profile.md
+  cards/
+    communication-style.md
+    ai-tools-workflow.md
+    ...
+```
+
+替换正式 memory 之前，先把旧版本备份到 `memory/archive/<date-or-reason>/`。
+
 ## 当前状态
 
 Aiden Memory 现在是一个早期 Skill MVP。
@@ -251,10 +298,23 @@ Aiden Memory 现在是一个早期 Skill MVP。
 
 仍然是手动或实验状态：
 
-- profile / card 生成质量审阅；
-- 从导入到完整 memory 的一键 pipeline；
+- 借助模型生成 profile / cards，并进行质量审阅；
+- 从导入到正式 active memory 的一键 pipeline；
 - ChatGPT export 支持；
 - 最终打包成可安装 Codex skill。
+
+## 不适合用它的场景
+
+Aiden Memory 不是所有“记忆”问题的答案。
+
+不要用它来保存：
+
+- secrets、API keys、tokens、passwords、recovery codes、payment details 或私人凭证；
+- 未经用户审阅的自动深层人格画像；
+- 每次新聊天都加载某个人的全部历史；
+- 替代简单项目说明，比如 `AGENTS.md`、`CLAUDE.md` 或一份很短的偏好文件；
+- 把一次性的情绪状态保存成永久身份；
+- 未经明确脱敏就公开 raw exports 或个人 memory。
 
 ## 安全边界
 

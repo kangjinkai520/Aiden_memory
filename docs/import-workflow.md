@@ -99,15 +99,38 @@ After import, update `memory/coverage.md` with:
 - outputs updated,
 - notes about mismatches, gaps, or overlaps.
 
+## Draft Memory Output
+
+After cleaning and summarizing source material, create a draft memory instance first:
+
+```text
+memory/experiments/<date-or-name>/
+  coverage.draft.md
+  index.draft.md
+  profile.draft.md
+  deep-profile.draft.md
+  cards/
+    identity.draft.md
+    communication-style.draft.md
+    ...
+  source/
+    source-notes.md
+```
+
+The draft should include:
+
+- candidate memory notes or source notes under `source/`,
+- a default-readable `profile.draft.md`,
+- an explicit-trigger `deep-profile.draft.md`,
+- task-specific `cards/*.draft.md`,
+- a `coverage.draft.md` that records source windows and last processed dates,
+- an `index.draft.md` that routes future runtime use.
+
+Do not overwrite active `memory/` until the user approves the draft or explicitly asks to finalize the import.
+
 ## First Pass
 
-Read the source export and produce:
-
-- candidate memory notes in `memory/inbox.md`,
-- a default-readable `memory/profile.md`,
-- an explicit-trigger `memory/deep-profile.md`,
-- updates to relevant `memory/cards/*.md`.
-- an updated `memory/coverage.md`.
+Read the source export and produce the draft files above.
 
 Use different reading depth for different outputs:
 
@@ -138,7 +161,7 @@ For `deep-profile.md`, use this workflow:
 
 ## Reconciliation
 
-After import, compare:
+Before promoting a draft to active memory, compare:
 
 - profile vs cards,
 - deep-profile vs cards,
@@ -146,3 +169,17 @@ After import, compare:
 - dated context vs current context.
 
 When conflicts appear, keep the current reviewed card facts and update profiles to match.
+
+## Promote To Active Memory
+
+After review and reconciliation:
+
+1. Back up the current active memory to `memory/archive/<date-or-reason>/`.
+2. Copy or rewrite approved draft files into active paths:
+   - `memory/coverage.md`
+   - `memory/index.md`
+   - `memory/profile.md`
+   - `memory/deep-profile.md`
+   - `memory/cards/*.md`
+3. Record the promotion in `memory/changelog.md`.
+4. Keep raw exports and experiments untracked.

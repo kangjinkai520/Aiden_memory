@@ -25,6 +25,19 @@ The intended shape is a **Skill**, not a platform. It is local, Markdown-first, 
 
 ## Start Here
 
+### 5-Minute Quick Start
+
+```text
+1. Clone this repo.
+2. Put your AI export files under imports/<source>/.
+3. Ask Codex: "Use Aiden Memory in Import Memory mode to build a draft memory from this export."
+4. Review the generated draft files.
+5. Promote the reviewed draft into memory/.
+6. In future chats, ask: "Use Aiden Memory with memory instance <path-to-Aiden_memory>/memory."
+```
+
+The first run builds memory. Later chats should use the generated memory, not re-import raw exports.
+
 The most important rule:
 
 > Import once, generate memory once, then reuse the generated memory. Do not re-import raw chat history every time you open a new conversation.
@@ -232,6 +245,40 @@ node scripts/summarize-normalized-conversations.mjs `
 
 These scripts prepare source material. They do not directly update active memory.
 
+## Draft-To-Active Memory Path
+
+After raw exports are cleaned and summarized, the assistant should create a draft memory instance first:
+
+```text
+memory/experiments/<date-or-name>/
+  coverage.draft.md
+  index.draft.md
+  profile.draft.md
+  deep-profile.draft.md
+  cards/
+    communication-style.draft.md
+    ai-tools-workflow.draft.md
+    ...
+  source/
+    source-notes.md
+```
+
+Review the draft before it becomes the active memory. When approved, promote it into:
+
+```text
+memory/
+  coverage.md
+  index.md
+  profile.md
+  deep-profile.md
+  cards/
+    communication-style.md
+    ai-tools-workflow.md
+    ...
+```
+
+Keep the previous active memory under `memory/archive/<date-or-reason>/` before replacing it.
+
 ## Current Status
 
 Aiden Memory is an early Skill MVP.
@@ -251,10 +298,23 @@ Already working:
 
 Still manual or experimental:
 
-- profile/card generation quality review,
-- full one-command import-to-memory pipeline,
+- model-assisted profile/card generation and quality review,
+- full one-command import-to-active-memory pipeline,
 - ChatGPT export support,
 - final packaging as an installed Codex skill.
+
+## When Not To Use
+
+Aiden Memory is not the right tool for every kind of memory.
+
+Do not use it for:
+
+- secrets, API keys, tokens, passwords, recovery codes, payment details, or private credentials;
+- automatic deep personality profiling without user review;
+- loading someone's full history into every new chat;
+- replacing simple project instructions such as `AGENTS.md`, `CLAUDE.md`, or a short preferences file;
+- storing unstable one-off moods as permanent identity;
+- publishing raw exports or personal memory without explicit redaction.
 
 ## Safety Boundaries
 

@@ -1,6 +1,6 @@
 ---
 name: aiden-memory
-description: Local Markdown memory skill for AI conversation continuity. Use when a user asks to use Aiden Memory, use memory/cards/profile/deep-profile for a task, choose relevant memory cards, add or promote a memory, import/rebuild memory from Claude/Codex/ChatGPT exports, summarize AI chat history into reviewable memory files, or explain/operate this Aiden_memory project.
+description: Local Markdown memory skill for AI conversation continuity. Use only when the user asks to use or operate Aiden Memory, local memory files, memory cards, profile/deep-profile, or this Aiden_memory project; asks to choose relevant memory cards; asks to add/promote a memory; or explicitly asks to import/rebuild/summarize Claude, Codex, ChatGPT, or other AI chat exports into reviewable memory files.
 ---
 
 # Aiden Memory
@@ -137,12 +137,13 @@ node scripts/summarize-normalized-conversations.mjs `
 ```
 
 5. Draft or update:
-   - `coverage.md`
-   - `index.md`
-   - `profile.md`
-   - `deep-profile.md`
-   - `cards/*.md`
-6. Keep drafts separate until reviewed, unless the user clearly asks to finalize active memory.
+   - `coverage.draft.md`
+   - `index.draft.md`
+   - `profile.draft.md`
+   - `deep-profile.draft.md`
+   - `cards/*.draft.md`
+6. Put draft outputs under `memory/experiments/<date-or-name>/` unless the user explicitly asks to update active memory directly.
+7. Promote to active `memory/` only after review or explicit approval. Back up the previous active memory under `memory/archive/<date-or-reason>/`.
 
 ## Deep Profile
 
@@ -151,6 +152,17 @@ node scripts/summarize-normalized-conversations.mjs `
 Read it only when the user explicitly asks for deep personal context or the task clearly involves identity, emotional continuity, values, relationships, social judgment, AI companionship, or a major life decision.
 
 For ordinary study, coding, Git, docs, logistics, or tool tasks, use `profile.md` and relevant cards instead.
+
+## When Not To Use
+
+Do not use Aiden Memory for:
+
+- secrets, tokens, passwords, payment details, recovery codes, or private credentials;
+- automatic deep personality profiling without user review;
+- loading an entire personal history into every new chat;
+- replacing simple project instructions such as `AGENTS.md`, `CLAUDE.md`, or short preference files;
+- storing temporary moods as permanent identity;
+- publishing raw exports or personal memory without explicit redaction.
 
 ## Source Coverage
 
