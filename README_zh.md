@@ -58,6 +58,14 @@ memory/
     ...
 ```
 
+默认正式 memory 实例是：
+
+```text
+<path-to-Aiden_memory>/memory
+```
+
+`memory/experiments/*` 下面的是实验、草稿或测试实例。除非用户明确把某个 experiment 路径指定为 memory instance，否则助手不应该默认读取它们。
+
 ### 新开窗口怎么用
 
 新开一个对话时，可以这样告诉助手：

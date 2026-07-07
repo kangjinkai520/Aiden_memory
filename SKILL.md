@@ -10,6 +10,8 @@ Aiden Memory is a local Markdown memory skill. Use it to turn AI conversation hi
 ## Core Rules
 
 - Keep `imports/` and `memory/` private and untracked.
+- Treat `<project>/memory` as the default active memory instance.
+- Treat `memory/experiments/*` as draft/test instances. Use an experiment only when the user explicitly supplies that experiment path.
 - Do not read raw imports during ordinary runtime use.
 - Do not read `deep-profile.md` by default.
 - Do not regenerate memory unless the user explicitly asks for import or rebuild.

@@ -11,6 +11,10 @@ The default mode is Runtime Mode. Import Mode must be explicitly requested.
 
 Users do not need to say "Runtime Mode." They should be able to use natural requests such as "use Aiden Memory," "which cards should you read?", "add this memory," or "import my Claude export." The skill maps those requests to the correct internal behavior.
 
+The default active memory instance is `<project>/memory`.
+
+Folders under `memory/experiments/*` are draft or test instances. Do not use an experiment by default. Use one only when the user explicitly provides that experiment path as the memory instance.
+
 ## User-Facing Actions
 
 Aiden Memory should expose four natural actions:

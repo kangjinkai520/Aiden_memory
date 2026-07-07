@@ -58,6 +58,14 @@ memory/
     ...
 ```
 
+By default, the active memory instance is:
+
+```text
+<path-to-Aiden_memory>/memory
+```
+
+Experiment folders such as `memory/experiments/*` are draft or test instances. Assistants should not use them unless the user explicitly provides that experiment path as the memory instance.
+
 ### New Chat Usage
 
 When starting a new chat, tell the assistant where the project and memory instance are:
