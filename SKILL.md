@@ -5,7 +5,7 @@ description: Local Markdown memory skill for AI conversation continuity. Use onl
 
 # Aiden Memory
 
-Use Aiden Memory to turn exported AI conversations into local, reviewable Markdown memory, then use only the relevant memory files during future tasks.
+Use Aiden Memory to turn local Agent sessions or exported AI conversations into local, reviewable Markdown memory, then use only the relevant memory files during future tasks.
 
 Keep the skill small in behavior:
 
@@ -111,9 +111,12 @@ Use when the user gives a specific memory, correction, or preference.
 
 ## Import Memory
 
-Use only when the user explicitly asks to import, rebuild, regenerate, or summarize raw/normalized exports.
+Use only when the user explicitly asks to import, rebuild, regenerate, or summarize local sessions, raw exports, or normalized exports.
 
-1. Confirm source, path, requested date range, outputs, and reading depth when unclear.
+1. Confirm source type, path, requested date range, outputs, and reading depth when unclear.
+   - For local Agent/Desktop/CLI tools, the path may be a session/history/log folder.
+   - For web AI tools, ask for an official export first. If none exists, the user must save relevant conversations locally before import.
+   - For unknown formats, inspect a small sample and explain whether it can be parsed.
 2. Read existing `memory/coverage.md` if present and report:
    - current memory range;
    - new export range;

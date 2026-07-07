@@ -12,7 +12,7 @@ Aiden Memory keeps that continuity in files the user can inspect.
 
 Aiden Memory helps a user:
 
-- import AI conversation exports,
+- import local Agent session folders or web AI conversation exports,
 - clean noisy source formats such as Codex JSONL,
 - normalize conversations into a Claude-like structure,
 - generate task-specific memory cards,
@@ -29,11 +29,12 @@ The intended shape is a **Skill**, not a platform. It is local, Markdown-first, 
 
 ```text
 1. Clone this repo.
-2. Put your AI export files under imports/<source>/.
-3. Ask Codex: "Use Aiden Memory in Import Memory mode to build a draft memory from this export."
-4. Review the generated draft files.
-5. Promote the reviewed draft into memory/.
-6. In future chats, ask: "Use Aiden Memory with memory instance <path-to-Aiden_memory>/memory."
+2. Find where your chat history lives: a local session/history folder, or a web export file.
+3. Tell Codex the source path and date range.
+4. Ask Codex: "Use Aiden Memory in Import Memory mode to build a draft memory from this source."
+5. Review the generated draft files.
+6. Promote the reviewed draft into memory/.
+7. In future chats, ask: "Use Aiden Memory with memory instance <path-to-Aiden_memory>/memory."
 ```
 
 The first run builds memory. Later chats should use the generated memory, not re-import raw exports.
@@ -44,18 +45,56 @@ The most important rule:
 
 Aiden Memory has two different jobs:
 
-- **Import / Build Memory**: use chat exports to create `cards/`, `profile.md`, `deep-profile.md`, `coverage.md`, and `index.md`.
+- **Import / Build Memory**: use local sessions or web exports to create `cards/`, `profile.md`, `deep-profile.md`, `coverage.md`, and `index.md`.
 - **Use Memory**: in a normal new chat, read only the already-generated profile/cards that match the current task.
 
 Most daily use should be **Use Memory**, not Import.
 
+### Choose Your Source Type
+
+Different AI tools store chat history differently. Users should not manually clean or reformat chat records. They only need to tell Aiden Memory where the source data is and what date range to process.
+
+#### Local Agent / Desktop / CLI Tools
+
+Tools such as Codex Desktop, Claude Code, Cursor-style agents, or other local AI agents often save sessions, history, or logs on disk.
+
+For these tools, give Aiden Memory:
+
+```text
+Source: Codex / Claude Code / Cursor / other local Agent
+Session folder: <path-to-session-or-history-folder>
+Date range: YYYY-MM-DD to YYYY-MM-DD
+Output: draft memory
+```
+
+Aiden Memory should scan the folder, filter by date, clean noisy records, normalize them into AI-friendly JSON, generate summaries, and draft memory files under `memory/experiments/`.
+
+#### Web AI Tools
+
+For web products such as Claude Web or ChatGPT Web, first check whether the product provides an official export or data download.
+
+If an official export exists:
+
+```text
+Source: Claude Web / ChatGPT Web / other web AI
+Export file or folder: <path-to-export>
+Date range: YYYY-MM-DD to YYYY-MM-DD
+Output: draft memory
+```
+
+If no export exists, the user may need to manually download, copy, or otherwise save the relevant conversations first. Aiden Memory can help process the saved files, but it cannot read private web-account history that has not been exported or saved locally.
+
+#### Unknown Or Unsupported Tools
+
+If the tool saves local files but Aiden Memory does not support its format yet, give the folder path and a small sample first. The assistant should inspect the structure, explain whether it can parse it, and avoid guessing silently.
+
 ### First-Time Setup
 
-1. Export your AI chat history from Claude, ChatGPT, Codex, or another tool.
-2. Put the export under `imports/`. This folder is ignored by git.
-3. Ask an assistant to use Aiden Memory in **Import Memory** mode.
-4. Generate a memory instance under `memory/`. This folder is also ignored by git.
-5. Review the generated drafts before treating them as active memory.
+1. Identify the source: local Agent session folder, official web export, or saved conversation files.
+2. Give the assistant the source path and requested date range.
+3. Ask the assistant to use Aiden Memory in **Import Memory** mode.
+4. Let Aiden Memory clean/normalize supported sources and create a draft memory instance under `memory/experiments/`.
+5. Review the generated drafts before promoting them into active `memory/`.
 
 After this step, you should have files like:
 
@@ -133,12 +172,12 @@ For some users, AI is not just a disposable Q&A box. It becomes a long-running t
 
 Aiden Memory is an attempt to keep that continuity without giving up control.
 
-The user keeps raw exports local. The skill turns them into reviewed, dated, readable memory files. Future assistants can read only what the current task needs.
+The user keeps local sessions and raw exports local. The skill turns them into reviewed, dated, readable memory files. Future assistants can read only what the current task needs.
 
 ## Core Flow
 
 ```text
-Raw exports
+Local sessions or web exports
   -> Clean / normalize source conversations
   -> Summarize and identify high-signal conversations
   -> Draft cards, profile, and deep profile

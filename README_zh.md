@@ -12,7 +12,7 @@ Aiden Memory 把这种连续性放回用户自己能检查的文件里。
 
 Aiden Memory 帮用户：
 
-- 导入 AI 聊天记录；
+- 导入本地 Agent session 文件夹，或者网页版 AI 的聊天记录导出；
 - 清洗 Codex JSONL 这类噪音很多的来源格式；
 - 把不同来源转换成类似 Claude conversations 的统一结构；
 - 生成分任务 memory cards；
@@ -29,11 +29,12 @@ Aiden Memory 帮用户：
 
 ```text
 1. Clone 这个仓库。
-2. 把你的 AI 导出文件放到 imports/<source>/。
-3. 告诉 Codex：“Use Aiden Memory in Import Memory mode to build a draft memory from this export.”
-4. 审阅生成出来的 draft files。
-5. 把确认过的 draft promote 到 memory/。
-6. 以后新开聊天时说：“Use Aiden Memory with memory instance <path-to-Aiden_memory>/memory.”
+2. 找到你的聊天记录在哪里：本地 session/history 文件夹，或者网页版导出文件。
+3. 告诉 Codex 来源路径和日期范围。
+4. 告诉 Codex：“Use Aiden Memory in Import Memory mode to build a draft memory from this source.”
+5. 审阅生成出来的 draft files。
+6. 把确认过的 draft promote 到 memory/。
+7. 以后新开聊天时说：“Use Aiden Memory with memory instance <path-to-Aiden_memory>/memory.”
 ```
 
 第一次运行是为了生成 memory。之后的新聊天应该使用已经生成好的 memory，而不是每次重新导入原始聊天记录。
@@ -44,18 +45,56 @@ Aiden Memory 帮用户：
 
 Aiden Memory 有两个完全不同的动作：
 
-- **Import / Build Memory**：读取聊天导出，生成 `cards/`、`profile.md`、`deep-profile.md`、`coverage.md` 和 `index.md`。
+- **Import / Build Memory**：读取本地 sessions 或网页版导出，生成 `cards/`、`profile.md`、`deep-profile.md`、`coverage.md` 和 `index.md`。
 - **Use Memory**：普通新对话里，只读取已经生成好的 profile/cards，并且只读取当前任务需要的部分。
 
 大多数日常使用都应该是 **Use Memory**，不是 Import。
 
+### 根据来源选择做法
+
+不同 AI 工具保存聊天记录的方式不一样。用户不需要自己手动清洗或整理格式，只需要告诉 Aiden Memory：数据在哪里，以及要处理哪段日期。
+
+#### 本地 Agent / 桌面端 / CLI 工具
+
+像 Codex Desktop、Claude Code、Cursor 类 Agent，或者其他本地 AI Agent，通常会把 sessions、history 或 logs 保存在本地磁盘上。
+
+这类工具只需要提供：
+
+```text
+Source: Codex / Claude Code / Cursor / other local Agent
+Session folder: <path-to-session-or-history-folder>
+Date range: YYYY-MM-DD to YYYY-MM-DD
+Output: draft memory
+```
+
+Aiden Memory 应该扫描这个文件夹，按日期筛选，清洗噪音记录，标准化成 AI 友好的 JSON，生成摘要，并在 `memory/experiments/` 下生成 draft memory 文件。
+
+#### 网页版 AI 工具
+
+像 Claude Web、ChatGPT Web 这类网页产品，先检查平台有没有官方导出或数据下载功能。
+
+如果有官方导出：
+
+```text
+Source: Claude Web / ChatGPT Web / other web AI
+Export file or folder: <path-to-export>
+Date range: YYYY-MM-DD to YYYY-MM-DD
+Output: draft memory
+```
+
+如果没有官方导出，用户就需要先手动下载、复制，或者用其他方式把相关对话保存到本地。Aiden Memory 可以继续处理这些保存下来的文件，但它不能直接读取一个还没有导出或保存到本地的网页登录账号历史。
+
+#### 未知或暂未支持的工具
+
+如果某个工具确实在本地保存了文件，但 Aiden Memory 还不支持它的格式，先提供文件夹路径和少量样例。助手应该检查结构，说明能不能解析，不要静默猜测。
+
 ### 第一次使用
 
-1. 从 Claude、ChatGPT、Codex 或其他工具导出聊天记录。
-2. 把导出文件放进 `imports/`。这个目录会被 git 忽略。
+1. 确认来源：本地 Agent session 文件夹、网页版官方导出，或者已经保存下来的 conversation 文件。
+2. 给助手来源路径和请求的日期范围。
 3. 让助手按 Aiden Memory 的 **Import Memory** 模式处理。
-4. 在 `memory/` 下生成一个 memory 实例。这个目录也会被 git 忽略。
-5. 先审阅生成的草稿，再把它当成正式 memory 使用。
+4. 让 Aiden Memory 清洗/标准化已支持的来源，并在 `memory/experiments/` 下生成 draft memory 实例。
+5. 先审阅生成的草稿，再 promote 到正式 `memory/`。
 
 完成后，通常会有这些文件：
 
@@ -115,12 +154,12 @@ Follow the skill-modes rules.
 
 ### 以后怎么更新
 
-当用户过了一段时间又导出新的聊天记录时，不要直接全部重建。
+当用户过了一段时间又有新的聊天记录来源时，不要直接全部重建。
 
 先看 `coverage.md`，助手应该告诉用户：
 
 - 现在的 memory 基于哪段日期；
-- 新导出的聊天记录覆盖哪段日期；
+- 新来源覆盖哪段日期；
 - 这是追加、重叠、缺口，还是需要完整重建。
 
 更新后的 profile、deep-profile 和 cards 都应该保留 source coverage，让用户知道这份画像基于哪一段时间。
@@ -133,12 +172,12 @@ Follow the skill-modes rules.
 
 Aiden Memory 想解决的是：既保留这种连续性，又不放弃控制权。
 
-原始导出留在本地。Skill 把它们整理成经过审阅、有日期、可阅读的 memory 文件。未来的助手只读取当前任务真正需要的部分。
+本地 sessions 和原始导出都留在本地。Skill 把它们整理成经过审阅、有日期、可阅读的 memory 文件。未来的助手只读取当前任务真正需要的部分。
 
 ## 核心流程
 
 ```text
-原始导出
+本地 sessions 或网页版导出
   -> 清洗 / 统一 conversation 格式
   -> 生成摘要索引并识别高信号对话
   -> 草拟 cards、profile、deep-profile
@@ -247,7 +286,7 @@ node scripts/summarize-normalized-conversations.mjs `
 
 ## 从 Draft 到正式 Memory
 
-原始导出完成清洗和摘要之后，助手应该先创建一个草稿 memory 实例：
+本地 sessions 或网页版导出完成清洗和摘要之后，助手应该先创建一个草稿 memory 实例：
 
 ```text
 memory/experiments/<date-or-name>/

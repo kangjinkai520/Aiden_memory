@@ -6,9 +6,45 @@ This workflow describes the manual first version of Aiden Memory import. Later v
 
 Import is an explicit mode. Do not run this workflow during ordinary Runtime Mode use.
 
-## Place Raw Exports
+## Choose Source Type
 
-Put raw exports under:
+Aiden Memory can start from either local Agent session folders or exported web AI data. The user should not manually clean or reformat records before import.
+
+### Local Agent / Desktop / CLI
+
+If the source is a local Agent such as Codex Desktop, Claude Code, Cursor-style agents, or another CLI/Desktop assistant, ask for:
+
+```text
+Source:
+Session/history folder:
+Date range:
+Requested outputs:
+```
+
+The import workflow should scan the folder, filter by date, clean noisy records, normalize conversations, and write draft outputs.
+
+### Web AI Tools
+
+If the source is a web product such as Claude Web or ChatGPT Web, first ask the user to check for an official export or data download.
+
+If an export exists, ask for:
+
+```text
+Source:
+Export file or folder:
+Date range:
+Requested outputs:
+```
+
+If no export exists, the user must first save or copy the relevant conversations locally. Aiden Memory can process saved files, but it cannot read private web-account history that is not available on disk.
+
+### Unknown Formats
+
+If the source tool is not supported yet, inspect a small sample before committing to an import. Report whether the format can be parsed and what assumptions would be needed.
+
+## Place Source Files
+
+Put copied source files, web exports, or normalized import outputs under:
 
 ```text
 imports/<source>/
