@@ -1,0 +1,7 @@
+interface:
+  display_name: "Aiden Memory"
+  short_description: "Local Markdown memory for AI chat continuity."
+  default_prompt: "Use $aiden-memory to import or use my local AI conversation memory for this task."
+
+policy:
+  allow_implicit_invocation: true

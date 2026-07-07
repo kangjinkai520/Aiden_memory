@@ -1,86 +1,160 @@
 ---
 name: aiden-memory
-description: Local Markdown memory skill for importing AI conversation exports into reviewable cards, profile, and deep-profile files, then using the right memory at runtime. Use when a user asks to use Aiden Memory, import Claude/Codex/ChatGPT conversations, generate or update memory cards/profile/deep-profile, route memory for a task, add a memory, or explain this Aiden_memory project.
+description: Local Markdown memory skill for AI conversation continuity. Use when a user asks to use Aiden Memory, use memory/cards/profile/deep-profile for a task, choose relevant memory cards, add or promote a memory, import/rebuild memory from Claude/Codex/ChatGPT exports, summarize AI chat history into reviewable memory files, or explain/operate this Aiden_memory project.
 ---
 
 # Aiden Memory
 
-Aiden Memory is a local Markdown memory skill. Use it to turn AI conversation history into reviewable memory files, then read only the relevant memory during future tasks.
+Use Aiden Memory to turn exported AI conversations into local, reviewable Markdown memory, then use only the relevant memory files during future tasks.
 
-## Core Rules
+Keep the skill small in behavior:
+
+- Import/build memory only when explicitly asked.
+- Use existing memory by default.
+- Route to the smallest useful profile/cards.
+- Keep raw exports and personal memory private.
+
+## First Decision
+
+Before reading files, classify the request:
+
+```text
+If the user asks to import, rebuild, regenerate, summarize exports, or read imports/<source>/:
+    use Import Memory
+Else if the user asks to add, remember, save, update, or promote a specific memory:
+    use Add / Update Memory
+Else if the user asks which cards/files should be read:
+    use Route Memory
+Else:
+    use Use Memory
+```
+
+Do not infer Import Memory just because exports exist.
+
+## Hard Rules
 
 - Keep `imports/` and `memory/` private and untracked.
 - Treat `<project>/memory` as the default active memory instance.
-- Treat `memory/experiments/*` as draft/test instances. Use an experiment only when the user explicitly supplies that experiment path.
+- Treat `memory/experiments/*` as draft/test instances. Use one only when the user explicitly supplies that experiment path.
 - Do not read raw imports during ordinary runtime use.
 - Do not read `deep-profile.md` by default.
-- Do not regenerate memory unless the user explicitly asks for import or rebuild.
-- Mention source coverage when using memory: source, observed range, and last processed date.
-- Treat generated memory as draft until reviewed.
+- Do not regenerate profiles/cards unless the user explicitly asks for import, rebuild, or update work.
+- Mention memory coverage once near the start when using memory.
+- Treat generated memory as draft until reviewed or promoted.
+- Current user instructions override older imported memory.
 
-## Modes
+## Memory Instance Layout
 
-### Use Memory
+Default active instance:
+
+```text
+<project>/memory
+```
+
+Expected files:
+
+```text
+memory/
+  coverage.md
+  index.md
+  profile.md
+  deep-profile.md
+  cards/
+    identity.md
+    communication-style.md
+    ...
+  inbox.md
+  changelog.md
+```
+
+If testing an experiment with only draft files, use `*.draft.md` and say once that it is a draft instance. Do not promote draft files unless the user asks.
+
+## Use Memory
 
 Use when the user wants help with a current task and invokes Aiden Memory for context.
 
-1. Read `memory/index.md` or the supplied memory instance index.
-2. Read `profile.md` plus only the relevant cards.
-3. Mention the memory coverage date briefly.
-4. Continue the task without dumping full card contents.
+1. Read `coverage.md` and `index.md` from the active or supplied memory instance.
+2. Read `profile.md` plus the smallest relevant card set.
+3. Mention the memory cutoff briefly.
+4. Continue the task. Do not dump full card contents unless asked.
+5. Do not read `imports/`.
+6. Do not rebuild memory.
 
-### Route Memory
+Default orientation set:
 
-Use when the user asks which cards should be used.
+- `coverage.md`
+- `profile.md`
+- `cards/identity.md`
+- `cards/communication-style.md`
+
+Add task cards only when relevant.
+
+## Route Memory
+
+Use when the user asks which cards/files should be used.
 
 1. Infer the current task.
-2. Select relevant cards.
-3. Explain the selection briefly.
-4. Do not import raw data.
+2. Recommend files and give a short reason for each.
+3. State which files should not be read, especially `imports/` and usually `deep-profile.md`.
+4. Do not answer the main task unless the user asks to continue.
 
-### Add / Update Memory
+## Add / Update Memory
 
-Use when the user gives a specific new memory or preference.
+Use when the user gives a specific memory, correction, or preference.
 
-1. Capture the candidate in `memory/inbox.md`.
-2. Ask for or use explicit approval before promotion.
-3. Promote to the relevant card only after review.
+1. Capture uncertain or unapproved memory in `memory/inbox.md`.
+2. Promote only after explicit approval.
+3. Update the smallest relevant card/profile.
 4. Record approved changes in `memory/changelog.md`.
+5. Use absolute dates for dated facts.
+6. Do not store secrets, tokens, passwords, payment details, or recovery codes.
 
-### Import Memory
+## Import Memory
 
-Use only when the user explicitly asks to import, rebuild, summarize exports, or update memory from chat history.
+Use only when the user explicitly asks to import, rebuild, regenerate, or summarize raw/normalized exports.
 
-1. Confirm source, path, and requested date range.
-2. Check existing `memory/coverage.md` if present.
-3. Report requested range and observed range.
-4. For Codex JSONL, run `scripts/import-codex-sessions.mjs` before memory generation.
-5. Run `scripts/summarize-normalized-conversations.mjs` on normalized conversations.
-6. Draft cards, `profile.md`, `deep-profile.md`, `coverage.md`, and `index.md`.
-7. Keep drafts separate until reviewed.
+1. Confirm source, path, requested date range, outputs, and reading depth when unclear.
+2. Read existing `memory/coverage.md` if present and report:
+   - current memory range;
+   - new export range;
+   - whether the update is append, overlap, gap, or full rebuild.
+3. For Codex Desktop JSONL, run:
 
-## File Structure
+```powershell
+node scripts/import-codex-sessions.mjs `
+  --source <codex-sessions-dir> `
+  --start YYYY-MM-DD `
+  --end YYYY-MM-DD `
+  --out imports/codex/<date-range>_codex-clean
+```
 
-- `docs/skill-modes.md`: detailed mode rules.
-- `docs/import-workflow.md`: import workflow.
-- `docs/memory-lifecycle.md`: current/stable/history rules.
-- `templates/memory/`: reusable output templates.
-- `scripts/import-codex-sessions.mjs`: Codex JSONL cleaner.
-- `scripts/summarize-normalized-conversations.mjs`: deterministic conversation summaries.
-- `examples/synthetic-alex/`: safe public example.
+4. Summarize normalized conversations:
 
-## Memory Surfaces
+```powershell
+node scripts/summarize-normalized-conversations.mjs `
+  --input imports/codex/<date-range>_codex-clean/conversations.normalized.json `
+  --out imports/codex/<date-range>_codex-clean
+```
 
-- `cards/*.md`: task-specific facts and preferences.
-- `profile.md`: default-readable orientation profile.
-- `deep-profile.md`: explicit-use deep personal profile.
-- `coverage.md`: source timeline and last processed date.
-- `inbox.md`: candidate memories awaiting review.
-- `changelog.md`: approved memory changes.
+5. Draft or update:
+   - `coverage.md`
+   - `index.md`
+   - `profile.md`
+   - `deep-profile.md`
+   - `cards/*.md`
+6. Keep drafts separate until reviewed, unless the user clearly asks to finalize active memory.
+
+## Deep Profile
+
+`deep-profile.md` is opt-in.
+
+Read it only when the user explicitly asks for deep personal context or the task clearly involves identity, emotional continuity, values, relationships, social judgment, AI companionship, or a major life decision.
+
+For ordinary study, coding, Git, docs, logistics, or tool tasks, use `profile.md` and relevant cards instead.
 
 ## Source Coverage
 
-Every generated profile, deep profile, and card should include:
+Every generated profile, deep profile, card, and coverage file should make the source window visible:
 
 ```text
 Source:
@@ -91,12 +165,40 @@ Last processed through:
 Status:
 ```
 
-## Lifecycle Layers
-
-Use three layers:
+Use three layers inside memory content when useful:
 
 - Current Snapshot: recent state that should guide ordinary use.
 - Stable Patterns: durable preferences and repeated patterns.
 - Historical Notes: older context that may matter but should not dominate.
 
-Current user instructions override older imported memory.
+## Resource Routing
+
+Read extra docs only when needed:
+
+- `docs/skill-modes.md`: detailed runtime/import routing, activation scenarios, and card selection.
+- `docs/import-workflow.md`: import workflow and source handling.
+- `docs/memory-lifecycle.md`: current/stable/history rules and update lifecycle.
+- `docs/product-architecture.md`: reusable product architecture and privacy boundaries.
+- `templates/memory/`: output templates for profile, deep profile, coverage, index, and cards.
+- `examples/synthetic-alex/`: safe public example for expected output shape.
+
+Use scripts instead of rewriting import logic:
+
+- `scripts/import-codex-sessions.mjs`: clean Codex Desktop JSONL sessions into normalized conversations.
+- `scripts/summarize-normalized-conversations.mjs`: summarize normalized conversations and identify high-signal sessions.
+
+## Validation
+
+After changing scripts or import behavior, run:
+
+```powershell
+node --test tests/import-codex-sessions.test.mjs tests/summarize-normalized-conversations.test.mjs
+```
+
+Before publishing or pushing, verify private data is untracked:
+
+```powershell
+git ls-files imports memory docs/superpowers
+```
+
+Expected output: nothing.
