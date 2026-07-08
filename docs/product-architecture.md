@@ -59,6 +59,10 @@ The two profiles should not be generated with the same reading depth:
 
 This keeps the default layer useful for ordinary tasks while allowing the deep layer to feel genuinely personal when the user explicitly asks for it.
 
+Deep profiles also have a specific misuse risk: they can convert limited conversation evidence into a highly coherent psychological story. That story may feel deeply accurate because it is well-written, not because every inference is well-supported.
+
+For that reason, `deep-profile.md` should be treated as a reflection aid, not an identity authority. It should distinguish observed facts, user-confirmed patterns, and assistant hypotheses. It should avoid totalizing explanations, keep uncertainty visible, and never override current user corrections or lived reality.
+
 ### Coverage
 
 `coverage.md` records what date range the current memory instance is based on.

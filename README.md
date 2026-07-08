@@ -249,6 +249,33 @@ Memory content is separated into:
 
 This prevents older imports from quietly overriding who the user is now.
 
+## New Discovery: Deep Profile Risk
+
+Aiden Memory should help preserve continuity, not define a person's identity for them.
+
+During early use, one important risk became clear: a generated `deep-profile.md` can feel unusually convincing when it turns scattered conversation history into a smooth psychological narrative. Even when the content is not obviously wrong, the structure can make assistant inferences feel more certain than the source material justifies.
+
+Maintainer note:
+
+> I once generated a very detailed `deep-profile.md` from an exported memory file. At first it felt moving and even impressive. It seemed to organize scattered things I had said into a layered explanation of who I was: inner movements, core tensions, fears, patterns, and emotional texture.
+>
+> Later I realized that this was exactly the dangerous part. The file was not only reminding me what I had said or done. It was beginning to tell me why I was the way I was. Because I already like self-analysis, the writing felt satisfying and easy to believe. But that satisfaction was not the same as truth. A profile based on limited conversations should not become a definition of the self.
+>
+> This became an important lesson for Aiden Memory: if a memory system becomes "too understanding," it can quietly attract the user into depending on the AI's explanation instead of looking at what is happening now.
+
+Users should treat any generated deep profile as a dated, partial, reviewable reflection aid. It is not a diagnosis, not a personality verdict, and not a more authoritative version of the user's own self-understanding.
+
+When generating or reviewing a deep profile:
+
+- separate observed facts from assistant hypotheses;
+- mark low-confidence or unconfirmed interpretations clearly;
+- avoid turning temporary moods, loneliness, anger, fatigue, or life pressure into permanent identity;
+- avoid overly totalizing language such as "core fear," "true self," or "deep essence" unless the user has explicitly confirmed it;
+- let current user corrections and lived reality override imported memory;
+- use `deep-profile.md` sparingly, and do not let it shape ordinary technical, study, or logistics tasks.
+
+The healthiest use of `deep-profile.md` is as a mirror the user can argue with, not as a script the assistant or user must obey.
+
 ## Skill Modes
 
 Aiden Memory separates memory use from memory generation.
